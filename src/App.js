@@ -1,8 +1,10 @@
+import { firebase, firestore } from "./firebase";
+
 function App() {
+  console.log(firebase, firestore);
   return (
-    <div className="bg-black text-white">
-      hi
-      <div className="">nerds</div>
+    <div className="">
+      <div className="">Hi, nerds</div>
     </div>
   );
 }
