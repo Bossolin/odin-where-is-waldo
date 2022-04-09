@@ -9,18 +9,19 @@ import Reticle from "./Reticle";
 
 const Game = ({ level }) => {
   const [coords, setCoords] = useState({ x: 1, y: 1 });
+  const [showReticle, setShowReticle] = useState(false);
 
-  const getCoords = (e) => {
-    const parent = document.getElementById("grid");
-
-    let bounds = parent.getBoundingClientRect();
-    let x = e.clientX - bounds.left - 24;
-    let y = e.clientY - bounds.top - 24;
+  const setRecicle = (e) => {
+    let bounds = e.target.getBoundingClientRect();
+    let x = e.clientX - bounds.left - e.target.width * 0.015;
+    let y = e.clientY - bounds.top - e.target.width * 0.015;
 
     setCoords({
       x: x,
       y: y,
     });
+
+    setShowReticle(true);
   };
 
   return (
@@ -34,9 +35,14 @@ const Game = ({ level }) => {
         />
         <Button name={"Leaderboard"} dest="/leaderboard" />
       </div>
-      <div className="relative" onClick={getCoords} id="grid">
-        <img src={level} alt="" />
-        <Reticle x={coords.x} y={coords.y} />
+      <div className="relative">
+        <img src={level} alt="" onClick={setRecicle} />
+        <Reticle
+          x={coords.x}
+          y={coords.y}
+          showReticle={showReticle}
+          setShowReticle={setShowReticle}
+        />
       </div>
     </div>
   );
