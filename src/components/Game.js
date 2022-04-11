@@ -10,6 +10,12 @@ import Reticle from "./Reticle";
 const Game = ({ level }) => {
   const [coords, setCoords] = useState({ x: 1, y: 1 });
   const [showReticle, setShowReticle] = useState(false);
+  const [findWaldo, setFindWaldo] = useState({
+    waldo: false,
+    wenda: false,
+    wizard: false,
+    odlaw: false,
+  });
 
   const setRecicle = (e) => {
     let bounds = e.target.getBoundingClientRect();
@@ -22,6 +28,17 @@ const Game = ({ level }) => {
     });
 
     setShowReticle(true);
+
+    if (
+      x / e.target.width > 0.59 &&
+      x / e.target.width < 0.61 &&
+      y / e.target.height > 0.34 &&
+      y / e.target.height < 0.36
+    ) {
+      console.log("you clicked on waldo");
+    }
+
+    // console.log(x, y, e.target.width, e.target.height);
   };
 
   return (
@@ -42,6 +59,8 @@ const Game = ({ level }) => {
           y={coords.y}
           showReticle={showReticle}
           setShowReticle={setShowReticle}
+          findWaldo={findWaldo}
+          setFindWaldo={setFindWaldo}
         />
       </div>
     </div>
