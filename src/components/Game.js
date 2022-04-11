@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { firebase, firestore } from "../firebase";
 import Button from "./Button";
 import mugshot from "../img/mugshot.jpeg";
 import "../img/levels/beach.jpeg";
@@ -17,6 +18,15 @@ const Game = ({ level }) => {
     odlaw: false,
   });
 
+  const fireWaldo = {
+    beach: {
+      waldo: { x: 0.603, y: 0.353 },
+      wenda: { x: 0.757, y: 0.386 },
+      wizard: { x: 0.255, y: 0.329 },
+      odlaw: { x: 0.092, y: 0.332 },
+    },
+  };
+
   const setRecicle = (e) => {
     let bounds = e.target.getBoundingClientRect();
     let x = e.clientX - bounds.left - e.target.width * 0.015;
@@ -29,16 +39,20 @@ const Game = ({ level }) => {
 
     setShowReticle(true);
 
-    if (
-      x / e.target.width > 0.59 &&
-      x / e.target.width < 0.61 &&
-      y / e.target.height > 0.34 &&
-      y / e.target.height < 0.36
-    ) {
-      console.log("you clicked on waldo");
-    }
+    console.log(x / e.target.width, y / e.target.height);
+  };
 
-    // console.log(x, y, e.target.width, e.target.height);
+  const validateFind = (name) => {
+    const img = document.getElementById("level");
+
+    if (
+      coords.x / img.width > fireWaldo[level.name][name].x - 0.01 &&
+      coords.x / img.width < fireWaldo[level.name][name].x + 0.01 &&
+      coords.y / img.height > fireWaldo[level.name][name].y - 0.01 &&
+      coords.y / img.height < fireWaldo[level.name][name].y + 0.01
+    ) {
+      setFindWaldo((prevState) => ({ ...prevState, [name]: true }));
+    }
   };
 
   return (
@@ -53,14 +67,14 @@ const Game = ({ level }) => {
         <Button name={"Leaderboard"} dest="/leaderboard" />
       </div>
       <div className="relative">
-        <img src={level} alt="" onClick={setRecicle} />
+        <img src={level.img} alt="" onClick={setRecicle} id="level" />
         <Reticle
           x={coords.x}
           y={coords.y}
           showReticle={showReticle}
           setShowReticle={setShowReticle}
           findWaldo={findWaldo}
-          setFindWaldo={setFindWaldo}
+          validateFind={validateFind}
         />
       </div>
     </div>

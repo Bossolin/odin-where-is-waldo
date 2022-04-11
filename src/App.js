@@ -2,14 +2,13 @@ import Home from "./components/Home";
 import Game from "./components/Game";
 import Leaderboard from "./components/Leaderboard";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { firebase, firestore } from "./firebase";
 import { useState } from "react";
 
 function App() {
-  const [level, setLevel] = useState("");
+  const [level, setLevel] = useState({});
 
-  const handleClick = (level) => {
-    setLevel(level);
+  const handleClick = (name, img) => {
+    setLevel({ name, img });
   };
 
   return (

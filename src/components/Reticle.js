@@ -7,7 +7,7 @@ const Reticle = ({
   showReticle,
   setShowReticle,
   findWaldo,
-  setFindWaldo,
+  validateFind,
 }) => {
   const cast = ["waldo", "wenda", "wizard", "odlaw"];
 
@@ -31,7 +31,7 @@ const Reticle = ({
             id={i}
             name={member}
             findMember={findWaldo[member]}
-            setFindWaldo={setFindWaldo}
+            validateFind={validateFind}
           />
         ))}
       </ul>

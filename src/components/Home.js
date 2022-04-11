@@ -3,12 +3,19 @@ import logo from "../img/logo.jpeg";
 import team from "../img/team.jpeg";
 import beach from "../img/levels/beach.jpeg";
 import snow from "../img/levels/snow.jpeg";
-import game from "../img/levels/game.jpeg";
+import race from "../img/levels/game.jpeg";
 import space from "../img/levels/space.jpeg";
 import Button from "./Button";
 import Card from "./Card";
 
 const Home = ({ onClick }) => {
+  const levels = {
+    beach: { name: "beach", img: beach },
+    snow: { name: "snow", img: snow },
+    race: { name: "race", img: race },
+    space: { name: "space", img: space },
+  };
+
   return (
     <div className="flex flex-col ">
       <div className="flex justify-between items-center py-2 px-10 shadow h-24">
@@ -17,10 +24,18 @@ const Home = ({ onClick }) => {
         <Button name={"Leaderboard"} dest="/leaderboard" />
       </div>
       <div className="grid grid-cols-[repeat(auto-fit,_minmax(500px,_1fr))] auto-rows-auto p-12 gap-12">
-        <Card img={beach} name={"Beach Level"} onClick={onClick} />
-        <Card img={snow} name={"Snow Level"} onClick={onClick} />
-        <Card img={game} name={"Race Level"} onClick={onClick} />
-        <Card img={space} name={"Space Level"} onClick={onClick} />
+        <Card
+          img={levels.beach.img}
+          name={levels.beach.name}
+          onClick={onClick}
+        />
+        <Card img={levels.snow.img} name={levels.snow.name} onClick={onClick} />
+        <Card img={levels.race.img} name={levels.race.name} onClick={onClick} />
+        <Card
+          img={levels.space.img}
+          name={levels.space.name}
+          onClick={onClick}
+        />
       </div>
     </div>
   );
