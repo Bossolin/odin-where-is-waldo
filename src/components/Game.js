@@ -20,10 +20,10 @@ const Game = ({ level }) => {
 
   const fireWaldo = {
     beach: {
-      waldo: { x: 0.603, y: 0.353 },
-      wenda: { x: 0.757, y: 0.386 },
-      wizard: { x: 0.255, y: 0.329 },
-      odlaw: { x: 0.092, y: 0.332 },
+      waldo: { x: 0.69, y: 0.445 },
+      wenda: { x: 0.882, y: 0.484 },
+      wizard: { x: 0.256, y: 0.415 },
+      odlaw: { x: 0.053, y: 0.419 },
     },
   };
 
@@ -44,6 +44,7 @@ const Game = ({ level }) => {
 
   const validateFind = (name) => {
     const img = document.getElementById("level");
+    const reticle = document.getElementById("reticle");
 
     if (
       coords.x / img.width > fireWaldo[level.name][name].x - 0.01 &&
@@ -52,6 +53,18 @@ const Game = ({ level }) => {
       coords.y / img.height < fireWaldo[level.name][name].y + 0.01
     ) {
       setFindWaldo((prevState) => ({ ...prevState, [name]: true }));
+
+      reticle.style.border = "2px solid rgb(34 197 94)";
+
+      setTimeout(() => {
+        reticle.style.border = "2px solid yellow";
+      }, 500);
+    } else {
+      reticle.style.border = "2px solid red";
+
+      setTimeout(() => {
+        reticle.style.border = "2px solid yellow";
+      }, 500);
     }
   };
 
