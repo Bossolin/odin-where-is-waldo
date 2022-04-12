@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { firebase, firestore } from "../firebase";
+import React, { useEffect, useState } from "react";
+import { firestore } from "../firebase";
+import { collection, getDocs } from "firebase/firestore";
 import Button from "./Button";
 import mugshot from "../img/mugshot.jpeg";
 import "../img/levels/beach.jpeg";
@@ -11,6 +12,7 @@ import Reticle from "./Reticle";
 const Game = ({ level }) => {
   const [coords, setCoords] = useState({ x: 1, y: 1 });
   const [showReticle, setShowReticle] = useState(false);
+  const [firestoreCoords, setFirestoreCoords] = useState({});
   const [findWaldo, setFindWaldo] = useState({
     waldo: false,
     wenda: false,
@@ -18,14 +20,17 @@ const Game = ({ level }) => {
     odlaw: false,
   });
 
-  const fireWaldo = {
-    beach: {
-      waldo: { x: 0.69, y: 0.445 },
-      wenda: { x: 0.882, y: 0.484 },
-      wizard: { x: 0.256, y: 0.415 },
-      odlaw: { x: 0.053, y: 0.419 },
-    },
-  };
+  useEffect(() => {
+    const levelCollectionRef = collection(firestore, "levels");
+
+    const getCharacters = async () => {
+      const data = await getDocs(levelCollectionRef);
+      const currentLevel = data.docs.filter((doc) => doc.id === level.name);
+      setFirestoreCoords(currentLevel[0].data());
+    };
+
+    getCharacters();
+  }, [level.name]);
 
   const setRecicle = (e) => {
     let bounds = e.target.getBoundingClientRect();
@@ -38,8 +43,6 @@ const Game = ({ level }) => {
     });
 
     setShowReticle(true);
-
-    console.log(x / e.target.width, y / e.target.height);
   };
 
   const validateFind = (name) => {
@@ -47,10 +50,10 @@ const Game = ({ level }) => {
     const reticle = document.getElementById("reticle");
 
     if (
-      coords.x / img.width > fireWaldo[level.name][name].x - 0.01 &&
-      coords.x / img.width < fireWaldo[level.name][name].x + 0.01 &&
-      coords.y / img.height > fireWaldo[level.name][name].y - 0.01 &&
-      coords.y / img.height < fireWaldo[level.name][name].y + 0.01
+      coords.x / img.width > firestoreCoords[name].x - 0.01 &&
+      coords.x / img.width < firestoreCoords[name].x + 0.01 &&
+      coords.y / img.height > firestoreCoords[name].y - 0.01 &&
+      coords.y / img.height < firestoreCoords[name].y + 0.01
     ) {
       setFindWaldo((prevState) => ({ ...prevState, [name]: true }));
 

@@ -30,7 +30,7 @@ const Reticle = ({
       <ul className="bg-slate-400 absolute top-0 left-[3.2vw] border border-slate-400 cursor-pointer flex flex-col gap-[1px] w-[7.5rem] rounded overflow-hidden">
         {cast.map((member, i) => (
           <ReticleLi
-            id={i}
+            key={i}
             name={member}
             findMember={findWaldo[member]}
             validateFind={validateFind}
