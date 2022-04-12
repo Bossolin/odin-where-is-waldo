@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { firestore } from "../firebase";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import { collection, getDocs, addDoc, Timestamp } from "firebase/firestore";
 import Button from "./Button";
 import mugshot from "../img/mugshot.jpeg";
 import "../img/levels/beach.jpeg";
@@ -14,7 +14,7 @@ const Game = ({ level }) => {
   const [coords, setCoords] = useState({ x: 1, y: 1 });
   const [showReticle, setShowReticle] = useState(false);
   const [firestoreCoords, setFirestoreCoords] = useState({});
-  const [player, setPlayer] = useState({});
+  const [roundStartTime, setRoundStartTime] = useState(0);
   const [findWaldo, setFindWaldo] = useState({
     waldo: false,
     wenda: false,
@@ -32,15 +32,16 @@ const Game = ({ level }) => {
     };
 
     getCharacters();
+    setRoundStartTime(Timestamp.now().seconds);
   }, [level.name]);
 
-  const addPlayer = async (name) => {
+  const addPlayer = async (name, time) => {
     const leaderboardCollectionRef = collection(
       firestore,
       `leaderboard/GtgyzI6BKHz49Q5Et147/${level.name}`
     );
 
-    await addDoc(leaderboardCollectionRef, { name });
+    await addDoc(leaderboardCollectionRef, { name, time });
   };
 
   const setRecicle = (e) => {
@@ -80,18 +81,15 @@ const Game = ({ level }) => {
         reticle.style.border = "2px solid yellow";
       }, 500);
     }
-
-    if (Object.values(findWaldo).every((item) => item)) {
-      addPlayer("mike");
-      console.log("finished");
-    }
   };
 
   return (
     <div className="">
-      <Modal />
-      <div className="flex justify-between items-center py-2 px-10 shadow bg-slate-100 h-24">
-        <Button name={"Choose Level"} dest="/" />
+      {Object.values(findWaldo).every((item) => item) && (
+        <Modal addPlayer={addPlayer} roundStartTime={roundStartTime} />
+      )}
+      <div className="relative flex justify-between items-center py-2 px-10 shadow bg-slate-100 h-24 z-20">
+        <Button name={"Select Level"} dest="/" />
         <img
           src={mugshot}
           alt="Where's Waldo characters"

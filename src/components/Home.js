@@ -23,7 +23,7 @@ const Home = ({ onClick }) => {
         <img src={team} alt="Where's Waldo characters" className="max-h-24" />
         <Button name={"Leaderboard"} dest="/leaderboard" />
       </div>
-      <div className="grid grid-cols-[repeat(auto-fit,_minmax(500px,_1fr))] auto-rows-auto p-12 gap-12">
+      <div className="grid grid-cols-[repeat(auto-fit,_minmax(500px,_1fr))] auto-rows-auto p-14 gap-14">
         <Card
           img={levels.beach.img}
           name={levels.beach.name}

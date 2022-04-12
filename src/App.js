@@ -16,7 +16,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Home onClick={handleClick} />} />
         <Route path="/game" element={<Game level={level} />} />
-        <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route
+          path="/leaderboard"
+          element={<Leaderboard level={level.name} />}
+        />
       </Routes>
     </BrowserRouter>
   );

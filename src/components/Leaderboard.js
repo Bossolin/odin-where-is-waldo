@@ -7,11 +7,11 @@ import game from "../img/levels/game-thumb.jpeg";
 import space from "../img/levels/space-thumb.jpeg";
 import Score from "./Score";
 import { firestore } from "../firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 
-const Leaderboard = () => {
+const Leaderboard = ({ level }) => {
   const [leaderboard, setLeaderboard] = useState([]);
-  const [currentLevel, setCurrentlevel] = useState("beach");
+  const [currentLevel, setCurrentlevel] = useState(level || "beach");
 
   useEffect(() => {
     const peopleCollectionRef = collection(
@@ -20,7 +20,8 @@ const Leaderboard = () => {
     );
 
     const getPeople = async () => {
-      const data = await getDocs(peopleCollectionRef);
+      const q = query(peopleCollectionRef, orderBy("time", "asc"));
+      const data = await getDocs(q);
 
       setLeaderboard(
         data.docs.map((person) => ({ ...person.data(), id: person.id }))
@@ -77,7 +78,7 @@ const Leaderboard = () => {
             }`}
           />
         </div>
-        <ul className="flex flex-col border border-slate-400 bg-slate-400 gap-[1px]">
+        <ul className="flex flex-col border border-slate-400 bg-slate-400 gap-[1px] rounded overflow-hidden">
           {leaderboard.map((person) => (
             <Score name={person.name} time={person.time} key={person.id} />
           ))}
