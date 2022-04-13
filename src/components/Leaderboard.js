@@ -78,7 +78,11 @@ const Leaderboard = ({ level }) => {
             }`}
           />
         </div>
-        <ul className="flex flex-col border border-slate-400 bg-slate-400 gap-[1px] rounded overflow-hidden">
+        <ul className="flex flex-col border border-slate-400 bg-slate-200 gap-[1px] rounded overflow-hidden shadow-md">
+          <div className="flex justify-between px-6 py-2">
+            <p className="font-bold text-lg">Name</p>
+            <p className="font-bold text-lg">Time</p>
+          </div>
           {leaderboard.map((person) => (
             <Score name={person.name} time={person.time} key={person.id} />
           ))}

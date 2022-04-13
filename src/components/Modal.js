@@ -28,6 +28,7 @@ const Modal = ({ addPlayer, roundStartTime }) => {
           type="text"
           className="bg-slate-50 border-2 border-slate-400 rounded mb-4 px-2 py-1 focus:outline-none  focus:border-blue-600"
           onChange={(e) => setName(e.target.value)}
+          autoFocus
         />
         <p className="mb-4 text-lg">
           Time: {roundEndTime - roundStartTime} sec.
