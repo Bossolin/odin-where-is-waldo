@@ -1,6 +1,6 @@
 # odin-where-is-waldo
 
-[Live Demo](https://odin-where-is-waldo-game.firebaseapp.com/)
+[Live Demo](https://odin-where-is-waldo-game.web.app/)
 
 # Getting Started with Create React App
 
